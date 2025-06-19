@@ -20,7 +20,7 @@ const ServiceEdit = () => {
 
   React.useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/services/${id}`)
+      fetch(`https://selva-server.vercel.app/api/services/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setForm({
@@ -48,8 +48,8 @@ const ServiceEdit = () => {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/services/${id}`
-      : "http://localhost:5000/api/services";
+      ? `https://selva-server.vercel.app/api/services/${id}`
+      : "https://selva-server.vercel.app/api/services";
     const body = {
       ...form,
       features: form.features.split(",").map((t) => t.trim()),

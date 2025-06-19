@@ -29,7 +29,7 @@ const initialState: ServicesState = {
 export const fetchServices = createAsyncThunk(
   'services/fetchAll',
   async () => {
-    const response = await fetch('http://localhost:5000/api/services');
+    const response = await fetch('https://selva-server.vercel.app/api/services');
     return response.json();
   }
 );
@@ -37,7 +37,7 @@ export const fetchServices = createAsyncThunk(
 export const addService = createAsyncThunk(
   'services/add',
   async (serviceData: Omit<Service, 'id'>) => {
-    const response = await fetch('http://localhost:5000/api/services', {
+    const response = await fetch('https://selva-server.vercel.app/api/services', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(serviceData),
@@ -49,7 +49,7 @@ export const addService = createAsyncThunk(
 export const updateService = createAsyncThunk(
   'services/update',
   async ({ id, data }: { id: string; data: Partial<Service> }) => {
-    const response = await fetch(`http://localhost:5000/api/services/${id}`, {
+    const response = await fetch(`https://selva-server.vercel.app/api/services/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -61,7 +61,7 @@ export const updateService = createAsyncThunk(
 export const deleteService = createAsyncThunk(
   'services/delete',
   async (id: string) => {
-    await fetch(`http://localhost:5000/api/services/${id}`, { method: 'DELETE' });
+    await fetch(`https://selva-server.vercel.app/api/services/${id}`, { method: 'DELETE' });
     return id;
   }
 );

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface BlogPost {
   id: string;
@@ -36,28 +36,35 @@ const initialState: BlogState = {
 };
 
 export const fetchBlogPosts = createAsyncThunk(
-  'blog/fetchPosts',
+  "blog/fetchPosts",
   async (params?: { category?: string; limit?: number; search?: string }) => {
     const queryParams = new URLSearchParams(params as any);
-    const response = await fetch(`http://localhost:5000/api/blog?${queryParams}`);
+    const response = await fetch(
+      `https://selva-server.vercel.app/api/blog?${queryParams}`
+    );
     return response.json();
   }
 );
 
 export const fetchBlogPost = createAsyncThunk(
-  'blog/fetchPost',
+  "blog/fetchPost",
   async (id: string) => {
-    const response = await fetch(`http://localhost:5000/api/blog/${id}`);
+    const response = await fetch(`https://selva-server.vercel.app/api/blog/${id}`);
     return response.json();
   }
 );
 
 export const createBlogPost = createAsyncThunk(
-  'blog/create',
-  async (postData: Omit<BlogPost, 'id' | 'publishedAt' | 'updatedAt' | 'views' | 'likes'>) => {
-    const response = await fetch('http://localhost:5000/api/blog', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+  "blog/create",
+  async (
+    postData: Omit<
+      BlogPost,
+      "id" | "publishedAt" | "updatedAt" | "views" | "likes"
+    >
+  ) => {
+    const response = await fetch("https://selva-server.vercel.app/api/blog", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData),
     });
     return response.json();
@@ -65,11 +72,11 @@ export const createBlogPost = createAsyncThunk(
 );
 
 export const updateBlogPost = createAsyncThunk(
-  'blog/update',
+  "blog/update",
   async ({ id, data }: { id: string; data: Partial<BlogPost> }) => {
-    const response = await fetch(`http://localhost:5000/api/blog/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`https://selva-server.vercel.app/api/blog/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     return response.json();
@@ -77,15 +84,15 @@ export const updateBlogPost = createAsyncThunk(
 );
 
 export const deleteBlogPost = createAsyncThunk(
-  'blog/delete',
+  "blog/delete",
   async (id: string) => {
-    await fetch(`http://localhost:5000/api/blog/${id}`, { method: 'DELETE' });
+    await fetch(`https://selva-server.vercel.app/api/blog/${id}`, { method: "DELETE" });
     return id;
   }
 );
 
 const blogSlice = createSlice({
-  name: 'blog',
+  name: "blog",
   initialState,
   reducers: {
     clearError: (state) => {
@@ -108,7 +115,7 @@ const blogSlice = createSlice({
       })
       .addCase(fetchBlogPosts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || 'Failed to fetch blog posts';
+        state.error = action.error.message || "Failed to fetch blog posts";
       })
       .addCase(fetchBlogPost.fulfilled, (state, action) => {
         state.currentPost = action.payload;
@@ -117,7 +124,7 @@ const blogSlice = createSlice({
         state.posts.unshift(action.payload);
       })
       .addCase(updateBlogPost.fulfilled, (state, action) => {
-        const index = state.posts.findIndex(p => p.id === action.payload.id);
+        const index = state.posts.findIndex((p) => p.id === action.payload.id);
         if (index !== -1) {
           state.posts[index] = action.payload;
         }
@@ -126,7 +133,7 @@ const blogSlice = createSlice({
         }
       })
       .addCase(deleteBlogPost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter(p => p.id !== action.payload);
+        state.posts = state.posts.filter((p) => p.id !== action.payload);
       });
   },
 });

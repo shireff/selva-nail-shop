@@ -33,7 +33,7 @@ export const fetchTestimonials = createAsyncThunk(
   'testimonials/fetchAll',
   async (params?: { approved?: boolean; featured?: boolean }) => {
     const queryParams = new URLSearchParams(params as any);
-    const response = await fetch(`http://localhost:5000/api/testimonials?${queryParams}`);
+    const response = await fetch(`https://selva-server.vercel.app/api/testimonials?${queryParams}`);
     return response.json();
   }
 );
@@ -41,7 +41,7 @@ export const fetchTestimonials = createAsyncThunk(
 export const addTestimonial = createAsyncThunk(
   'testimonials/add',
   async (testimonialData: Omit<Testimonial, 'id' | 'createdAt' | 'isApproved'>) => {
-    const response = await fetch('http://localhost:5000/api/testimonials', {
+    const response = await fetch('https://selva-server.vercel.app/api/testimonials', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(testimonialData),
@@ -53,7 +53,7 @@ export const addTestimonial = createAsyncThunk(
 export const updateTestimonial = createAsyncThunk(
   'testimonials/update',
   async ({ id, data }: { id: string; data: Partial<Testimonial> }) => {
-    const response = await fetch(`http://localhost:5000/api/testimonials/${id}`, {
+    const response = await fetch(`https://selva-server.vercel.app/api/testimonials/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -65,7 +65,7 @@ export const updateTestimonial = createAsyncThunk(
 export const deleteTestimonial = createAsyncThunk(
   'testimonials/delete',
   async (id: string) => {
-    await fetch(`http://localhost:5000/api/testimonials/${id}`, { method: 'DELETE' });
+    await fetch(`https://selva-server.vercel.app/api/testimonials/${id}`, { method: 'DELETE' });
     return id;
   }
 );

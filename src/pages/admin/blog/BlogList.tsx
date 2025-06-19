@@ -18,7 +18,7 @@ const BlogList = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch("http://localhost:5000/api/blog")
+    fetch("https://selva-server.vercel.app/api/blog")
       .then((res) => res.json())
       .then((data) => {
         setPosts(data.posts);

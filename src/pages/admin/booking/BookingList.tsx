@@ -20,7 +20,7 @@ const BookingList = () => {
 //   const navigate = useNavigate();
 
   React.useEffect(() => {
-    fetch("http://localhost:5000/api/bookings/user")
+    fetch("https://selva-server.vercel.app/api/bookings/user")
       .then((res) => res.json())
       .then((data) => {
         setBookings(data);
@@ -29,7 +29,7 @@ const BookingList = () => {
   }, []);
 
   const handleStatus = async (id: string, action: "confirm" | "cancel") => {
-    await fetch(`http://localhost:5000/api/bookings/${id}/${action}`, {
+    await fetch(`https://selva-server.vercel.app/api/bookings/${id}/${action}`, {
       method: "PUT",
     });
     setBookings((prev) =>

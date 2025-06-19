@@ -24,7 +24,7 @@ const ProductList = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://selva-server.vercel.app/api/products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);

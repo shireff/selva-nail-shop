@@ -21,7 +21,7 @@ const TestimonialEdit = () => {
 
   React.useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/testimonials/${id}`)
+      fetch(`https://selva-server.vercel.app/api/testimonials/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setForm({
@@ -49,8 +49,8 @@ const TestimonialEdit = () => {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/testimonials/${id}`
-      : "http://localhost:5000/api/testimonials";
+      ? `https://selva-server.vercel.app/api/testimonials/${id}`
+      : "https://selva-server.vercel.app/api/testimonials";
     await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },

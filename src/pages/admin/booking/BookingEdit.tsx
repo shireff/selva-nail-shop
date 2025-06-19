@@ -21,7 +21,7 @@ const BookingEdit = () => {
 
   React.useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/bookings/${id}`)
+      fetch(`https://selva-server.vercel.app/api/bookings/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setForm({ ...initialState, ...data });
@@ -44,8 +44,8 @@ const BookingEdit = () => {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/bookings/${id}`
-      : "http://localhost:5000/api/bookings";
+      ? `https://selva-server.vercel.app/api/bookings/${id}`
+      : "https://selva-server.vercel.app/api/bookings";
     await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },

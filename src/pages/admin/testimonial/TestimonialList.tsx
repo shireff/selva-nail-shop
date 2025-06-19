@@ -21,7 +21,7 @@ const TestimonialList = () => {
 //   const navigate = useNavigate();
 
   React.useEffect(() => {
-    fetch("http://localhost:5000/api/testimonials")
+    fetch("https://selva-server.vercel.app/api/testimonials")
       .then((res) => res.json())
       .then((data) => {
         setTestimonials(data.testimonials);
@@ -30,7 +30,7 @@ const TestimonialList = () => {
   }, []);
 
   const handleApprove = async (id: string) => {
-    await fetch(`http://localhost:5000/api/testimonials/${id}/approve`, {
+    await fetch(`https://selva-server.vercel.app/api/testimonials/${id}/approve`, {
       method: "PUT",
     });
     setTestimonials((prev) =>

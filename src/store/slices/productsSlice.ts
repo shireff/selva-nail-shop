@@ -44,7 +44,7 @@ export const fetchProducts = createAsyncThunk(
   async (filters?: { category?: string; brand?: string; search?: string }) => {
     const params = new URLSearchParams(filters as any);
     const response = await fetch(
-      `http://localhost:5000/api/products?${params}`
+      `https://selva-server.vercel.app/api/products?${params}`
     );
     return response.json();
   }
@@ -53,7 +53,7 @@ export const fetchProducts = createAsyncThunk(
 export const addToCart = createAsyncThunk(
   "products/addToCart",
   async ({ productId, quantity }: { productId: string; quantity: number }) => {
-    const response = await fetch("http://localhost:5000/api/products/cart", {
+    const response = await fetch("https://selva-server.vercel.app/api/products/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productId, quantity }),

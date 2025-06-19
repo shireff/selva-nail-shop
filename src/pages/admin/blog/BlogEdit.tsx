@@ -20,7 +20,7 @@ const BlogEdit = () => {
 
   React.useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/blog/${id}`)
+      fetch(`https://selva-server.vercel.app/api/blog/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setForm({
@@ -47,8 +47,8 @@ const BlogEdit = () => {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/blog/${id}`
-      : "http://localhost:5000/api/blog";
+      ? `https://selva-server.vercel.app/api/blog/${id}`
+      : "https://selva-server.vercel.app/api/blog";
     const body = {
       ...form,
       tags: form.tags.split(",").map((t) => t.trim()),

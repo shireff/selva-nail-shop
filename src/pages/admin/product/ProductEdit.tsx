@@ -26,7 +26,7 @@ const ProductEdit = () => {
 
   React.useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/products/${id}`)
+      fetch(`https://selva-server.vercel.app/api/products/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setForm({
@@ -54,8 +54,8 @@ const ProductEdit = () => {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/products/${id}`
-      : "http://localhost:5000/api/products";
+      ? `https://selva-server.vercel.app/api/products/${id}`
+      : "https://selva-server.vercel.app/api/products";
     const body = {
       ...form,
       images: form.images.split(",").map((t) => t.trim()),

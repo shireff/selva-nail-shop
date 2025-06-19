@@ -18,7 +18,7 @@ const ServiceList = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch("http://localhost:5000/api/services")
+    fetch("https://selva-server.vercel.app/api/services")
       .then((res) => res.json())
       .then((data) => {
         setServices(data.services);

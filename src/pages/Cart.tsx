@@ -21,7 +21,7 @@ const Cart: React.FC = () => {
   useEffect(() => {
     const fetchCart = async () => {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/products/cart");
+      const res = await fetch("https://selva-server.vercel.app/api/products/cart");
       const data = await res.json();
       setCart(data.cart || []);
       setLoading(false);
@@ -31,7 +31,7 @@ const Cart: React.FC = () => {
 
   const handleRemove = async (productId: string) => {
     setLoading(true);
-    await fetch(`http://localhost:5000/api/products/cart/${productId}`, {
+    await fetch(`https://selva-server.vercel.app/api/products/cart/${productId}`, {
       method: "DELETE",
     });
     setCart(cart.filter((item) => item.product.id !== productId));
@@ -41,7 +41,7 @@ const Cart: React.FC = () => {
   const handleQuantityChange = async (productId: string, quantity: number) => {
     if (quantity < 1) return;
     setLoading(true);
-    await fetch("http://localhost:5000/api/products/cart", {
+    await fetch("https://selva-server.vercel.app/api/products/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productId, quantity }),

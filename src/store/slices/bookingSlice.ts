@@ -38,7 +38,7 @@ export const fetchAvailableSlots = createAsyncThunk(
   "booking/fetchAvailableSlots",
   async ({ serviceId, date }: { serviceId: string; date: string }) => {
     const response = await fetch(
-      `http://localhost:5000/api/bookings/slots?serviceId=${serviceId}&date=${date}`
+      `https://selva-server.vercel.app/api/bookings/slots?serviceId=${serviceId}&date=${date}`
     );
     return response.json();
   }
@@ -47,7 +47,7 @@ export const fetchAvailableSlots = createAsyncThunk(
 export const createBooking = createAsyncThunk(
   "booking/create",
   async (bookingData: Omit<Booking, "id" | "status">) => {
-    const response = await fetch("http://localhost:5000/api/bookings", {
+    const response = await fetch("https://selva-server.vercel.app/api/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bookingData),
@@ -60,7 +60,7 @@ export const confirmBooking = createAsyncThunk(
   "booking/confirm",
   async (bookingId: string) => {
     const response = await fetch(
-      `http://localhost:5000/api/bookings/${bookingId}/confirm`,
+      `https://selva-server.vercel.app/api/bookings/${bookingId}/confirm`,
       {
         method: "PUT",
       }
@@ -72,7 +72,7 @@ export const confirmBooking = createAsyncThunk(
 export const fetchUserBookings = createAsyncThunk(
   "booking/fetchUserBookings",
   async () => {
-    const response = await fetch("http://localhost:5000/api/bookings/user");
+    const response = await fetch("https://selva-server.vercel.app/api/bookings/user");
     return response.json();
   }
 );
@@ -81,7 +81,7 @@ export const cancelBooking = createAsyncThunk(
   "booking/cancel",
   async (bookingId: string) => {
     const response = await fetch(
-      `http://localhost:5000/api/bookings/${bookingId}/cancel`,
+      `https://selva-server.vercel.app/api/bookings/${bookingId}/cancel`,
       {
         method: "PUT",
       }
