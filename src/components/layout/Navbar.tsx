@@ -1,56 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ShoppingBag, Bell, User, Sparkles } from 'lucide-react';
-import { RootState } from '../../store/store';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ShoppingBag, Bell, User, Sparkles } from "lucide-react";
+import { RootState } from "../../store/store";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const { isAuthenticated, currentUser } = useSelector((state: RootState) => state.user);
+  const { isAuthenticated, currentUser } = useSelector(
+    (state: RootState) => state.user
+  );
   const { cartItems } = useSelector((state: RootState) => state.products);
-  const { unreadCount } = useSelector((state: RootState) => state.notifications);
+  const { unreadCount } = useSelector(
+    (state: RootState) => state.notifications
+  );
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navigation = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
-    { name: 'Products', path: '/products' },
-    { name: 'Booking', path: '/booking' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: "Products", path: "/products" },
+    { name: "Booking", path: "/booking" },
+    { name: "Blog", path: "/blog" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
   ];
 
-  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartItemsCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-          : 'bg-transparent'
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 lg:h-20">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 lg:h-20 w-full">
           {/* Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center space-x-2 group"
-          >
+          <Link to="/" className="flex items-center space-x-2 group">
             <motion.div
               className="relative"
               whileHover={{ scale: 1.05 }}
@@ -63,7 +65,7 @@ const Navbar = () => {
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </motion.div>
-            <span className="text-2xl font-display font-bold bg-gradient-to-r from-purple-600 to-rosegold-500 bg-clip-text text-transparent">
+            <span className="text-lg sm:text-2xl font-display font-bold bg-gradient-to-r from-purple-600 to-rosegold-500 bg-clip-text text-transparent">
               Selva
             </span>
           </Link>
@@ -76,8 +78,10 @@ const Navbar = () => {
                 to={item.path}
                 className={`relative text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
                   location.pathname === item.path
-                    ? 'text-purple-600'
-                    : isScrolled ? 'text-gray-700' : 'text-white'
+                    ? "text-purple-600"
+                    : isScrolled
+                    ? "text-gray-700"
+                    : "text-white"
                 }`}
               >
                 {item.name}
@@ -91,9 +95,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right Side Icons */}
           <div className="flex items-center space-x-4">
-            {/* Cart */}
             <Link
               to="/cart"
               className="relative p-2 text-gray-700 hover:text-purple-600 transition-colors"
@@ -111,7 +113,6 @@ const Navbar = () => {
               )}
             </Link>
 
-            {/* Notifications */}
             {isAuthenticated && (
               <button className="relative p-2 text-gray-700 hover:text-purple-600 transition-colors">
                 <Bell className="h-6 w-6" />
@@ -147,24 +148,26 @@ const Navbar = () => {
               </Link>
             )}
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="lg:hidden p-2 text-gray-700 hover:text-purple-600"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="lg:hidden bg-white/95 backdrop-blur-md border-t"
+            className="lg:hidden bg-white/95 backdrop-blur-md border-t max-w-full overflow-hidden"
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
@@ -176,13 +179,66 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block text-lg font-medium transition-colors ${
                     location.pathname === item.path
-                      ? 'text-purple-600'
-                      : 'text-gray-700 hover:text-purple-600'
+                      ? "text-purple-600"
+                      : "text-gray-700 hover:text-purple-600"
                   }`}
                 >
                   {item.name}
                 </Link>
               ))}
+
+              {/* Cart and Notification on Mobile */}
+              <div className="flex items-center space-x-4 mt-4">
+                <Link
+                  to="/cart"
+                  className="relative p-2 text-gray-700 hover:text-purple-600 transition-colors"
+                >
+                  <ShoppingBag className="h-6 w-6" />
+                  {cartItemsCount > 0 && (
+                    <motion.span
+                      className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
+                    >
+                      {cartItemsCount}
+                    </motion.span>
+                  )}
+                </Link>
+
+                {isAuthenticated && (
+                  <button className="relative p-2 text-gray-700 hover:text-purple-600 transition-colors">
+                    <Bell className="h-6 w-6" />
+                    {unreadCount > 0 && (
+                      <motion.span
+                        className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 30,
+                        }}
+                      >
+                        {unreadCount}
+                      </motion.span>
+                    )}
+                  </button>
+                )}
+              </div>
+
+              {!isAuthenticated && (
+                <Link
+                  to="/login"
+                  className="block bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors mt-4"
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
