@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface Product {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -65,7 +65,7 @@ export const addToCart = createAsyncThunk(
 export const removeFromCart = createAsyncThunk(
   "products/removeFromCart",
   async (productId: string) => {
-    await fetch(`/api/cart/${productId}`, { method: "DELETE" });
+    await fetch(`https://selva-server.vercel.app/api/cart/${productId}`, { method: "DELETE" });
     return productId;
   }
 );
@@ -73,7 +73,7 @@ export const removeFromCart = createAsyncThunk(
 export const toggleWishlist = createAsyncThunk(
   "products/toggleWishlist",
   async (productId: string) => {
-    const response = await fetch("/api/wishlist", {
+    const response = await fetch("https://selva-server.vercel.app/api/wishlist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productId }),

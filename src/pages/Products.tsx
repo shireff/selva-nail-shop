@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -188,11 +188,15 @@ const Products = () => {
                 className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="all">All Categories</option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
+                {categories && categories.length > 0 ? (
+                  categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))
+                ) : (
+                  <option>No categories available</option>
+                )}
               </select>
 
               {/* Brand */}
@@ -202,11 +206,15 @@ const Products = () => {
                 className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="all">All Brands</option>
-                {brands.map((brand) => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
+                {brands && brands.length > 0 ? (
+                  brands.map((brand) => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  ))
+                ) : (
+                  <option>No brands available</option>
+                )}
               </select>
 
               {/* Sort */}
@@ -249,7 +257,7 @@ const Products = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProducts.map((product, index) => (
                 <motion.div
-                  key={product.id}
+                  key={product._id}
                   className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow group border border-gray-100"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -284,12 +292,12 @@ const Products = () => {
 
                     {/* Wishlist Button */}
                     <button
-                      onClick={() => handleToggleWishlist(product.id)}
+                      onClick={() => handleToggleWishlist(product._id)}
                       className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
                     >
                       <Heart
                         className={`h-4 w-4 ${
-                          wishlist.includes(product.id)
+                          wishlist.includes(product._id)
                             ? "text-red-500 fill-current"
                             : "text-gray-600"
                         }`}
@@ -299,7 +307,7 @@ const Products = () => {
                     {/* Quick Add Button */}
                     <div className="absolute inset-x-0 bottom-0 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                       <button
-                        onClick={() => handleAddToCart(product.id)}
+                        onClick={() => handleAddToCart(product._id)}
                         disabled={!product.inStock}
                         className="w-full bg-purple-600 text-white py-3 font-medium hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                       >

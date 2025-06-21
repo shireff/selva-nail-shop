@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import  { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { 
   Clock, 
   Star, 
-  Tag, 
   Filter, 
   Search, 
   Calendar,

@@ -115,7 +115,6 @@ function App() {
                 }
               >
                 <Route index element={<Navigate to="blogs" replace />} />
-                {/* Redirect /admin to /admin/blogs */}
                 <Route path="blogs" element={<BlogList />} />
                 <Route path="blogs/new" element={<BlogEdit />} />
                 <Route path="blogs/:id/edit" element={<BlogEdit />} />
