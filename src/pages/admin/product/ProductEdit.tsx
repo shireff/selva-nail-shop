@@ -6,7 +6,7 @@ const initialState = {
   description: "",
   price: 0,
   discountPrice: 0,
-  images: "",
+  image: "",
   category: "",
   brand: "",
   inStock: true,
@@ -23,6 +23,8 @@ const ProductEdit = () => {
   const navigate = useNavigate();
   const [form, setForm] = React.useState(initialState);
   const [loading, setLoading] = React.useState(!!id);
+  const [imageFile, setImageFile] = React.useState<File | null>(null);
+  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (id) {
@@ -34,6 +36,7 @@ const ProductEdit = () => {
             images: data.images?.join(", ") || "",
             tags: data.tags?.join(", ") || "",
           });
+          setImagePreview(data.image);
           setLoading(false);
         });
     }
@@ -50,23 +53,49 @@ const ProductEdit = () => {
     }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("description", form.description);
+    formData.append("price", form.price.toString());
+    formData.append("category", form.category);
+    formData.append("brand", form.brand);
+    formData.append("stockQuantity", form.stockQuantity.toString());
+    formData.append("tags", form.tags);
+    formData.append("isNew", form.isNew ? "true" : "false");
+    formData.append("isFeatured", form.isFeatured ? "true" : "false");
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    } else if (form.image) {
+      formData.append("image", form.image); 
+    }
+
     const method = id ? "PUT" : "POST";
     const url = id
       ? `https://selva-server.vercel.app/api/products/${id}`
       : "https://selva-server.vercel.app/api/products";
-    const body = {
-      ...form,
-      images: form.images.split(",").map((t) => t.trim()),
-      tags: form.tags.split(",").map((t) => t.trim()),
-    };
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    navigate("/admin/products");
+
+    try {
+      await fetch(url, {
+        method,
+        body: formData,
+      });
+      navigate("/admin/products");
+    } catch (error) {
+      console.error("Error updating product:", error);
+      alert("Failed to update product. Please try again.");
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -111,13 +140,51 @@ const ProductEdit = () => {
         value={form.discountPrice}
         onChange={handleChange}
       />
-      <input
-        className="w-full mb-3 border px-3 py-2 rounded"
-        name="images"
-        placeholder="Images (comma separated URLs)"
-        value={form.images}
-        onChange={handleChange}
-      />
+      <div className=" items-center justify-center w-full">
+        <label
+          htmlFor="file-upload"
+          className="flex flex-col items-center justify-center p-2 w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100"
+        >
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg
+              className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 16"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+              />
+            </svg>
+            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              <span className="font-semibold">Click to upload</span> or drag and
+              drop
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              SVG, PNG, JPG or GIF (MAX. 800x400px)
+            </p>
+          </div>
+          <input
+            id="file-upload"
+            type="file"
+            className="hidden"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </label>
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="mt-4 h-40 object-cover rounded-md border"
+          />
+        )}
+      </div>
       <input
         className="w-full mb-3 border px-3 py-2 rounded"
         name="category"

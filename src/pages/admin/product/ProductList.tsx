@@ -7,7 +7,7 @@ type Product = {
   description: string;
   price: number;
   discountPrice?: number;
-  images: string[];
+  image: string;
   category: string;
   brand: string;
   inStock: boolean;
@@ -64,9 +64,9 @@ const ProductList = () => {
             key={product._id}
             className="bg-white rounded shadow p-4 flex flex-col md:flex-row gap-4"
           >
-            {product.images?.[0] && (
+            {product.image && (
               <img
-                src={product.images[0]}
+                src={product.image}
                 alt={product.name}
                 className="w-32 h-32 object-cover rounded"
               />
